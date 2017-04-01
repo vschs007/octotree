@@ -6,12 +6,10 @@ import map from 'map-stream'
 import {spawn} from 'child_process'
 const $ = require('gulp-load-plugins')()
 const version = require('./package.json').version
-
 // Tasks
 gulp.task('clean', () => {
   return pipe('./tmp', $.clean())
 })
-
 gulp.task('build', (cb) => {
   $.runSequence('clean', 'styles', 'chrome', 'opera', 'safari', 'firefox', cb)
 })
@@ -19,7 +17,6 @@ gulp.task('build', (cb) => {
 gulp.task('default', ['build'], () => {
   gulp.watch(['./libs/**/*', './src/**/*'], ['default'])
 })
-
 gulp.task('dist', ['build'], (cb) => {
   $.runSequence('firefox:xpi', 'chrome:zip', 'chrome:crx', 'opera:nex', cb)
 })
@@ -33,7 +30,6 @@ gulp.task('test', ['build'], (cb) => {
   ps.stderr.pipe(process.stderr);
   ps.on('close', cb)
 })
-
 gulp.task('styles', () => {
   return pipe(
     './src/styles/octotree.less',
@@ -61,7 +57,6 @@ gulp.task('lib:ondemand', (cb) => {
 gulp.task('chrome:template', () => {
   return buildTemplate({CHROME: true})
 })
-
 gulp.task('chrome:js', ['chrome:template', 'lib:ondemand'], () => {
   return buildJs(['./src/config/chrome/overrides.js'], {CHROME: true})
 })
